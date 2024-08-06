@@ -1,18 +1,34 @@
 package web.model;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
+//Не понял замечание про DI, а точнее на чём или где его использовать, пока пытался понять - сделал добавление машин
+//через бины скоупа prototype, но тут тоже DI особо не пригодился.
+@Component
+@Scope("prototype")
 public class Car {
 
-    private String model;
+    private String model = "Audi";
 
-    private String series;
+    private  int series;
 
-    private int price;
+    private  int price;
 
-    public Car(String model, String series, int price) {
-        this.model = model;
-        this.series = series;
-        this.price = price;
+    private static int seriesCount;
+    private static int priceCount;
+
+    public Car() {
+        series = 11111 + seriesCount;
+        price = 1111111 + priceCount;
+    }
+
+    @PostConstruct
+    public void init() {
+        seriesCount = seriesCount + 11111;
+        priceCount = priceCount + 1030500;
     }
 
     public String getModel() {
@@ -23,11 +39,11 @@ public class Car {
         this.model = model;
     }
 
-    public String getSeries() {
+    public int getSeries() {
         return series;
     }
 
-    public void setSeries(String series) {
+    public void setSeries(int series) {
         this.series = series;
     }
 

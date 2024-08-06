@@ -13,9 +13,9 @@ import java.util.List;
 public class CarsController {
 
 	@GetMapping(value = "/cars")
-	public String printCarsList(Model model, @RequestParam(value = "count", required = false) String count) {
-
-		if (count == null) {
+	public String printCarsList(Model model,
+								@RequestParam(value = "count", required = false, defaultValue = "9999") String count) {
+		if (count.equals("9999")) {
 			return "Car";
 		}
 		int intCount;
@@ -29,7 +29,6 @@ public class CarsController {
 
 		List<Car> cars = new CarServiceImp().getListCars(intCount);
 
-		System.out.println(intCount);
 		model.addAttribute("cars", cars);
 		return "Cars";
 	}

@@ -1,30 +1,38 @@
 package web.service;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import web.config.MyConfig;
 import web.model.Car;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CarServiceImp implements CarService {
 
-    private List<Car> cars = new ArrayList<>(5);
+    private List<Car> cars;
+
+    public CarServiceImp() {
+        cars = new ArrayList<>(5);
+    }
 
     @Override
     public List<Car> getListCars(int count) {
-        cars.add(new Car("Audi", "11111", 2550999));
-        cars.add(new Car("BMV", "22222", 3650999));
-        cars.add(new Car("Volvo", "33333", 1350999));
-        cars.add(new Car("Reno", "44444", 1990999));
-        cars.add(new Car("Lada", "55555", 4770999));
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(MyConfig.class);
+        cars.add(context.getBean(Car.class));
+        cars.add(context.getBean(Car.class));
+        cars.add(context.getBean(Car.class));
+        cars.add(context.getBean(Car.class));
+        cars.add(context.getBean(Car.class));
 
-        List<Car> countedCars = new ArrayList<>(count);
-
-        for (int i = 0; i < count; i++) {
-            countedCars.add(cars.get(i));
+        if (count > cars.size()) {
+            count = cars.size();
         }
+        context.close();
 
-        return countedCars;
+        return cars.stream()
+                .limit(count)
+                .collect(Collectors.toList());
     }
-
 
 }
