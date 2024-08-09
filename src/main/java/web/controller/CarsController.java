@@ -28,12 +28,6 @@ public class CarsController {
 //        } catch (NumberFormatException e) {
 //            return "CountError";
 //        }
-        if (count > 5) {
-            count = 5;
-        }
-        if (count < 0) {
-            count = 0;
-        }
 
         List<Car> cars = carService.getListCars(count);
 
